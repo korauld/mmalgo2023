@@ -1,0 +1,93 @@
+using BinSearch;
+using System;
+using System.Collections.Generic;
+
+namespace BinSearch.Tests
+{
+    public class BinarySearchTests
+    {
+        public static void PositiveSearch()
+        {
+            int[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            bool success = true;
+            for (int i = 0; i < array.Length; i++)
+            {
+                int result = BinarySearch.Find(array, Comparer<int>.Default, i);
+                if (result != i)
+                    success = false;
+            }
+
+            Console.WriteLine(success ? "PositiveSearch test: passed" : "PositiveSearch test: failed");
+        }
+
+        public static void PositiveSearchOddSize()
+        {
+            int[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            bool success = true;
+            for (int i = 0; i < array.Length; i++)
+            {
+                int result = BinarySearch.Find(array, Comparer<int>.Default, i);
+                if (result != i)
+                    success = false;
+            }
+
+            Console.WriteLine(success ? "PositiveSearchOddSize test: passed" : "PositiveSearchOddSize test: failed");
+        }
+
+        public static void NegativeSearch()
+        {
+            int[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13 };
+            int[] keys = { -10, 9, 100 };
+            bool success = true;
+            foreach (int key in keys)
+            {
+                int result = BinarySearch.Find(array, Comparer<int>.Default, key);
+                if (result != -1)
+                {
+                    success = false;
+                }
+            }
+
+            Console.WriteLine(success ? "NegativeSearch test: passed" : "NegativeSearch test: failed");
+        }
+
+        public static void EmptyArrayException()
+        {
+            int[] array = Array.Empty<int>();
+            bool success = true;
+            try
+            {
+                BinarySearch.Find(array, Comparer<int>.Default, 0);
+            }
+            catch
+            {
+                Console.WriteLine("EmptyArrayException test: passed");
+                success = false;
+            }
+
+            if (success)
+            {
+                Console.WriteLine("EmptyArrayException test: failed");
+            }
+        }
+
+        public static void DuplicateElements()
+        {
+            int[] array = { 1, 2, 3, 4, 4, 4, 4 };
+            int result = BinarySearch.Find(array, Comparer<int>.Default, 4);
+            Console.WriteLine(array[result] == 4 ? "DuplicateElements test: passed" : "DuplicateElements test: failed");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BinarySearchTests.PositiveSearch();
+            BinarySearchTests.PositiveSearchOddSize();
+            BinarySearchTests.NegativeSearch();
+            BinarySearchTests.EmptyArrayException();
+            BinarySearchTests.DuplicateElements();
+        }
+    }
+}
